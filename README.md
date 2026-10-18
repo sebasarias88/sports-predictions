@@ -56,8 +56,20 @@ uv run predict ingest --leagues SP1 --from-season 2024   # prueba pequeña
 uv run predict ingest --tier 1                            # todas las ligas nivel 1 desde 2015
 uv run predict ingest --tier 2                            # Brasil, Argentina, etc.
 
+uv run predict backtest --leagues SP1                     # probar el modelo contra cuotas reales
+uv run predict backtest --tier 1 --bookmaker pinnacle     # todas, contra Pinnacle
+uv run predict match --league SP1 --home Barcelona --away "Real Madrid"
+
 uv run pytest                # correr pruebas
 ```
+
+### Cómo leer el backtest
+
+- **model_logloss vs market_logloss**: error del modelo vs. el de las casas. Más bajo = mejor.
+  Si el del modelo es más alto, la casa sabe más que el modelo.
+- **bets / hit_rate / avg_odds**: cuántas apuestas de valor encontró, % acertadas y cuota promedio.
+- **profit_units / roi**: ganancia apostando 1 unidad fija en cada una. ROI +3% = gana 3 de cada 100 apostados.
+- El detalle queda en `prediction-engine/data/backtests/` (se abre con Excel).
 
 Para apagar la base de datos: `docker compose down` (los datos se conservan).
 Para borrar todo y empezar de cero: `docker compose down -v`.
